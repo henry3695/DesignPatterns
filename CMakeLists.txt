@@ -12,19 +12,34 @@ set(CPP_DIR ./Factory_Method ./Abstract_Factory)
 foreach(SUB_DIR ${CPP_DIR})
     message(STATUS "---Sub Dir: ${SUB_DIR}")
 
-    file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/${SUB_DIR}/*.cpp")
-    message(STATUS "---all cpp: ${SRC}")
+    #file(GLOB SRC "${CMAKE_CURRENT_SOURCE_DIR}/${SUB_DIR}/*.cpp")
+    #message(STATUS "---all cpp: ${SRC}")
+	
+	file(GLOB ALLHEADERS ${CMAKE_CURRENT_SOURCE_DIR}/${SUB_DIR}/*.h)
+	
+	# 查找当前目录下的所有源文件
+	# 并将名称保存到 DIR_SRCS 变量
+	aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/${SUB_DIR}/. DIR_SRCS)
+	message(STATUS "---all cpp: ${DIR_SRCS}")
+	message(STATUS "---all h: ${ALLHEADERS}")
 
-    foreach(CPP ${SRC})
-        message(STATUS "---Create Exe From: ${CPP}")
+	# 指定生成目标 
+	string(SUBSTRING ${SUB_DIR}  2 -1 exeName)
+	add_executable(${exeName} ${DIR_SRCS} ${ALLHEADERS})
+	set(DIR_SRCS "")
+	set(ALLHEADERS "")
 
-        STRING(REGEX REPLACE ".+/(.+)\\..*" "\\1" FILE_NAME ${CPP})
-        MESSAGE(" --- FILE_NAME:  ${FILE_NAME}")
 
-		string(SUBSTRING ${SUB_DIR}  2 -1 exeName)
-        add_executable(BOOST_${exeName} ${CPP})
+    #foreach(CPP ${SRC})
+    #   message(STATUS "---Create Exe From: ${CPP}")
 
-    endforeach(CPP)    
+    #       STRING(REGEX REPLACE ".+/(.+)\\..*" "\\1" FILE_NAME ${CPP})
+    #       MESSAGE(" --- FILE_NAME:  ${FILE_NAME}")
+
+	#   	string(SUBSTRING ${SUB_DIR}  2 -1 exeName)
+    #       add_executable(${exeName} ${CPP})
+
+    #   endforeach(CPP)    
 
 endforeach(SUB_DIR)
 
