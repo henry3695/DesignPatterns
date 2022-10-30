@@ -7,10 +7,12 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS   "-g")                     # 调试信息
 #set(CMAKE_CXX_FLAGS   "-Wall")                  # 开启所有警告
 
+
+
 message(" --------- Files Test A----- \n")
 
 # 添加各个子目录
-set(CPP_DIR ./Factory_Method ./Abstract_Factory ./Factory_and_Strategy)
+set(CPP_DIR ./Factory_Method ./Abstract_Factory ./Factory_and_Strategy ./ArraySorting)
 
 # 遍历各子目录
 foreach(SUB_DIR ${CPP_DIR})
@@ -33,8 +35,12 @@ foreach(SUB_DIR ${CPP_DIR})
 	message(STATUS "---all h: ${ALLHEADERS}")
 
 	# 指定生成目标 
+	SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build/bin)
+
 	#string(SUBSTRING ${SUB_DIR}  2 -1 exeName)
 	add_executable(${SUB_DIR} ${DIR_SRCS} ${ALLHEADERS})
+
+
 	set(DIR_SRCS "")
 	set(ALLHEADERS "")
 
