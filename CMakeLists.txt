@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS   "-g")                     # 调试信息
 message(" --------- Files Test A----- \n")
 
 # 添加各个子目录
-set(CPP_DIR ./Factory_Method ./Abstract_Factory)
+set(CPP_DIR ./Factory_Method ./Abstract_Factory ./Factory_and_Strategy)
 
 # 遍历各子目录
 foreach(SUB_DIR ${CPP_DIR})
