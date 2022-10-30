@@ -1,6 +1,7 @@
 #pragma once
 #include "baseMethod.h"
 #include "BubbleSort.h"
+#include "SelectionSort.h"
 #include <string>
 
 class  Context
@@ -22,7 +23,12 @@ Context::Context(string orderType)
     {
         m_pMathod = new CBubbleSort();
     }
-
+    else if (orderType=="选择排序")
+    {
+        m_pMathod = new CSelectionSort();
+    }
+    
+    cout<<orderType<<":";
 }
 void Context::Sort_Array()
 {

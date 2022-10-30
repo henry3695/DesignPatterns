@@ -7,5 +7,11 @@ int main(){
     cb.Print_Arry();
     cb.Sort_Array();
     cb.Print_Arry();
+
+
+    Context cb1("选择排序");
+    cb1.Print_Arry();
+    cb1.Sort_Array();
+    cb1.Print_Arry();
     return 0;
 }
