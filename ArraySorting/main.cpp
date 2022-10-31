@@ -13,5 +13,10 @@ int main(){
     cb1.Print_Arry();
     cb1.Sort_Array();
     cb1.Print_Arry();
+
+    Context cb2("插入排序");
+    cb2.Print_Arry();
+    cb2.Sort_Array();
+    cb2.Print_Arry();
     return 0;
 }

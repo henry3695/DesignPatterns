@@ -2,6 +2,7 @@
 #include "baseMethod.h"
 #include "BubbleSort.h"
 #include "SelectionSort.h"
+#include "InsertionSort.h"
 #include <string>
 
 class  Context
@@ -26,6 +27,10 @@ Context::Context(string orderType)
     else if (orderType=="选择排序")
     {
         m_pMathod = new CSelectionSort();
+    }
+    else if (orderType=="插入排序")
+    {
+        m_pMathod = new CInsertionSort();
     }
     
     cout<<orderType<<":";
