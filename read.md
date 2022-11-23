@@ -19,3 +19,11 @@ https://www.cnblogs.com/schips/p/12537360.html
    QString str = QString("[0x%1] [%2] void Widget::on_addItemBtn_clicked() ").arg((quint64)QThread::currentThreadId(),2,16, QLatin1Char('0')).arg(sTime);
    ui->listWidget->addItem(str);
    qDebug()<<(quint64)QThread::currentThreadId();
+
+https://www.cnblogs.com/schips/p/12537360.html
+
+Qt多线程通信
+https://blog.csdn.net/hebbely/article/details/79428336
+
+C++ WebSocket网络通信应用
+https://blog.csdn.net/wwplh5520370/article/details/115343065
