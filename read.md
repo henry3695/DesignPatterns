@@ -28,44 +28,5 @@ https://blog.csdn.net/hebbely/article/details/79428336
 C++ WebSocket网络通信应用
 https://blog.csdn.net/wwplh5520370/article/details/115343065
 
-  QStandardItemModel* model = new QStandardItemModel();
-    //QStringList labels = QObject::trUtf8("频率,功率,误差").simplified().split(",");
-    //model->setHorizontalHeaderLabels(labels);
-
-    //定义item
-    QStandardItem* item = 0;
-    for(int i = 0;i < 10;i++){
-        item = new QStandardItem(QString("10000%1").arg(i));
-        model->setItem(i,0,item);
-        item = new QStandardItem(QString("10000%1").arg(i*2));
-        model->setItem(i,1,item);
-        item = new QStandardItem(QString("10000%1").arg(i*3));
-        model->setItem(i,2,item);
-    }
-    ui->tableView->setModel(model);
-    item = new QStandardItem(QString("11111%1").arg(3));
-    model->setItem(9,0,item);
-     item = new QStandardItem(QString("222222%1").arg(3));
-    model->setItem(9,1,item);
-
-    ui->tableView->horizontalHeader()->hide();
-    ui->tableView->verticalHeader()->hide();
-    ui->tableView->setGridStyle(Qt::NoPen);
-     //ui->tableView->setGridStyle(Qt::PenStyle::NoPen);
-    ui->tableView->setFrameStyle(QFrame::NoFrame);
-    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    //ui->tableView->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-
-    ui->tableView->verticalHeader()->setDefaultSectionSize(20);
-    ui->tableView->horizontalHeader()->setDefaultSectionSize(60);
-
-    //ui->tableView->verticalHeader()->setDefaultSectionSize(100);
-    //ui->tableView->horizontalHeader()->setDefaultSectionSize(100);
-
-    ui->tableView->resize(220,230);
-
-    ui->tableView->show();
-    ui->tableView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff );
-    ui->tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff );
+json转c++结构体
+https://github.com/xyz347/xpack
