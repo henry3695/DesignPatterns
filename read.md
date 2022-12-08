@@ -30,3 +30,6 @@ https://blog.csdn.net/wwplh5520370/article/details/115343065
 
 json转c++结构体
 https://github.com/xyz347/xpack
+
+c++ 类的默认八种函数
+https://blog.csdn.net/JMW1407/article/details/108785842
