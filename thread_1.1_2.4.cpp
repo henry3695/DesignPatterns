@@ -107,7 +107,7 @@ public:
 
 	//C = move(B);   编译出错，删除赋值移动函数
 	String& operator=(String&& A) = delete; 
-//#else
+#else
 	//移动构造函数
 	String(String&& A) 
 	{
