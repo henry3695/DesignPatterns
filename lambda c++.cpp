@@ -131,5 +131,23 @@ int main()
 		for_each(vec.begin(), vec.end(), fun);
 	}
 
+	{
+		int x = 1;
+		auto valueLambda = [=]() { cout << x << endl; };
+		auto refLambda = [&]() { cout << x << endl; };
+		x = 13;
+		valueLambda();// 1
+		refLambda();  // 13
+	}
+	
+	
 	return 0;
 }
+
+
+
+
+
+
+
+
