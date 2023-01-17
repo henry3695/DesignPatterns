@@ -1,0 +1,3 @@
+MobaXterm.exe
+HeidiSQL
+FSCapture.exe
