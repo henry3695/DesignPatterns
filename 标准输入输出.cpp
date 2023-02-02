@@ -22,7 +22,15 @@ int main1()
 
     return 0;
 }
+/*
+输入
+testab
 
+输出
+t stab
+t
+t,6,6
+*/
 
 //用法一：最常用、最基本的用法，输入一个数字：
 //#include <iostream>
