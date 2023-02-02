@@ -1,3 +1,4 @@
 MobaXterm.exe
 HeidiSQL
 FSCapture.exe
+doxygen
