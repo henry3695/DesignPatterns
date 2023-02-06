@@ -1,0 +1,184 @@
+#if 1
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+using namespace  std;
+void coutTrack(vector<vector<int>>& track) {
+	for (vector<int>& nums : track) {
+		int i = track[0].size() - 1;
+		for (int num : nums) {
+			cout << num;
+			if (i > 0) {
+				cout << " ";
+				i--;
+			}
+		}
+		cout << endl;
+	}
+}
+bool backtrack(vector<vector<char>>& board, vector<vector<int>>& track, int curRow, int curCol, int step)
+{
+	int row = board.size();
+	int col = board[0].size();
+	if (curRow < 0 || curRow >= row || curCol < 0 || curCol >= col) {
+		return false;
+	}
+	if (track[curRow][curCol] != 0) {
+		return false;
+	}
+	if (step == row * col) {
+		track[curRow][curCol] = step;
+		return true;
+	}
+	track[curRow][curCol] = step;
+	step++;
+	if (backtrack(board, track, curRow - 2, curCol + 1, step) ||
+		backtrack(board, track, curRow - 1, curCol + 2, step) ||
+		backtrack(board, track, curRow + 1, curCol + 2, step) ||
+		backtrack(board, track, curRow + 2, curCol + 1, step) ||
+		backtrack(board, track, curRow + 2, curCol - 1, step) ||
+		backtrack(board, track, curRow + 1, curCol - 2, step) ||
+		backtrack(board, track, curRow - 1, curCol - 2, step) ||
+		backtrack(board, track, curRow - 2, curCol - 1, step)
+		) {
+		return true;
+	}
+
+	//coutTrack(track);
+	track[curRow][curCol] = 0;
+	//step--;
+	return false;
+}
+int main() {
+	int row;
+	int col;
+	cin >> row >> col;
+	vector<vector<char>> board(row, vector<char>(col, '.'));
+	vector<vector<int>> track(row, vector<int>(col, 0));
+	if (backtrack(board, track, row - 1, 0, 1)) {
+		coutTrack(track);
+	}
+	else {
+		cout << "QAQ";
+	}
+
+	system("pause");
+	return 0;
+}
+#endif
+
+
+#if 0
+#include <iostream>
+#include <string.h>
+using namespace std;
+/*
+00    01    02    03    04    05
+10    11    12    13    14    15
+20    21    22    23    24    25
+30    31    32    33    34    35
+40    41    42    43    44    45
+*/
+bool bFind = false;
+int* pBorder;
+int m, n;
+int dx[] = { -2,-1,1,2, 2, 1,-1,-2 };
+int dy[] = { 1, 2,2,1,-1,-2,-2,-1 };
+
+bool check(int i, int j)
+{
+	if (i >= 0 && j >= 0 && i < n && j < m)
+	{
+		if (*(pBorder + i*m + j) == 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+void printf_arry()
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if ((j + 1) == m)
+			{
+				cout << *(pBorder + i*m + j);
+				break;
+			}
+			else
+			{
+				cout << *(pBorder + i*m + j) << " ";
+			}
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+bool jump(int x, int y, int nstep)
+{
+	if (bFind)
+		return true;
+
+	if (check(x,y)==false)
+	{
+		//printf_arry();
+		return false;
+	}
+
+	*(pBorder + x*m + y) = nstep;
+
+	//cout<<"nstep="<<nstep<<endl;
+	//printf_arry();
+	if (nstep == (n*m))
+	{
+		printf_arry();
+		bFind = true;
+		return true;
+	}	
+
+	nstep++;
+	if (jump(x + dx[0], y + dy[0], nstep) ||
+		jump(x + dx[1], y + dy[1], nstep) ||
+		jump(x + dx[2], y + dy[2], nstep) ||
+		jump(x + dx[3], y + dy[3], nstep) ||
+		jump(x + dx[4], y + dy[4], nstep) ||
+		jump(x + dx[5], y + dy[5], nstep) ||
+		jump(x + dx[6], y + dy[6], nstep) ||
+		jump(x + dx[7], y + dy[7], nstep)
+		)
+	{
+		return true;
+	}
+
+	//printf_arry();
+	//nstep--;
+	*(pBorder + x*m + y) = 0;
+	return false;
+}
+int main()
+{
+	while (cin >> n >> m)
+	{		
+		cout << "n=" << n << endl;
+		cout << "m=" << m << endl;
+		bFind = false;
+		int nstep = 1;
+		pBorder = new int[n*m];
+		memset(pBorder, 0, sizeof(int)*n*m);
+		jump(n - 1, 0, nstep);
+		delete[]pBorder;
+
+		if (!bFind)
+		{
+			cout << "QAQ";
+		}
+	}
+
+	return 0;
+}
+
+#endif
