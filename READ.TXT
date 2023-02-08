@@ -27,3 +27,19 @@ Limits:
 输出样例 1
 
 0.2101101122
+
+
+
+
+
+#pragma once
+#include <QDebug>
+#include <QThread>
+#include <QTime>
+#define MYDEBUG
+#ifdef MYDEBUG
+#define MYLOG	qDebug()<<QTime::currentTime().toString("hh:mm:ss.zzz")<<(quint64)QThread::currentThreadId()<<__FUNCTION__
+#else
+#define MY_STUFF
+#define MYLOG /MY_STUFF/
+#endif
