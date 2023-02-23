@@ -5,7 +5,6 @@ doxygen
 
 https://github.com/beihaili/Get-Started-with-Web3/blob/main/02_FirstWeb3Transaction/readme.md
 
-#include <string>
 #include <QString>
 #include <QTextCodec>
 
@@ -13,14 +12,15 @@ https://github.com/beihaili/Get-Started-with-Web3/blob/main/02_FirstWeb3Transact
 
 QString ConverToUnicode(const char* p)
 {
-	string str(p);
-	QTextCodec *gb2312 = QTextCodec::codecForName("GB2312");
-	QString strUnicode = gb2312->toUnicode(str.c_str(), str.size());
+	QByteArray ba = p;
+	QTextCodec *gbk = QTextCodec::codecForName("GBK");
+	QString strUnicode = gbk->toUnicode(ba);
 	return strUnicode;
 }
 
 extern QString ConverToUnicode(const char* p);
 
 
+//add by hWX1207858  解决中文字符串显示问题，有更好的方法，可以替换这个宏 [2/23/2023]
 #define TEXT(p) ConverToUnicode(p)
 #endif
