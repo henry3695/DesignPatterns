@@ -4,3 +4,23 @@ FSCapture.exe
 doxygen
 
 https://github.com/beihaili/Get-Started-with-Web3/blob/main/02_FirstWeb3Transaction/readme.md
+
+#include <string>
+#include <QString>
+#include <QTextCodec>
+
+#ifndef TEXT
+
+QString ConverToUnicode(const char* p)
+{
+	string str(p);
+	QTextCodec *gb2312 = QTextCodec::codecForName("GB2312");
+	QString strUnicode = gb2312->toUnicode(str.c_str(), str.size());
+	return strUnicode;
+}
+
+extern QString ConverToUnicode(const char* p);
+
+
+#define TEXT(p) ConverToUnicode(p)
+#endif
