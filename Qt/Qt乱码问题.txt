@@ -1,0 +1,23 @@
+
+#include <QString>
+#include <QTextCodec>
+
+#ifndef TEXT
+
+QString ConverToUnicode(const char* p)
+{
+	QByteArray ba = p;
+	QTextCodec *gbk = QTextCodec::codecForName("GBK");
+	QString strUnicode = gbk->toUnicode(ba);
+	return strUnicode;
+}
+
+extern QString ConverToUnicode(const char* p);
+
+//vs2015编译器中文乱码问题
+#define TEXT(p) ConverToUnicode(p)
+
+
+//mingw 编译器中文乱码问题
+#define TEXT_CU(p) QString::fromLocal8Bit(p)
+#endif
