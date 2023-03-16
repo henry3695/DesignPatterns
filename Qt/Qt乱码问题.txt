@@ -21,3 +21,27 @@ extern QString ConverToUnicode(const char* p);
 //mingw 编译器中文乱码问题
 #define TEXT_CU(p) QString::fromLocal8Bit(p)
 #endif
+
+
+
+
+QString ShowRmb(double dlNum,int sep)
+{
+    QString strNum = QString::number(dlNum,'0',sep);
+    int nLen;
+    int nPos = strNum.lastIndexOf('.');
+    if(nPos==-1)
+    {
+        nLen = strNum.length();
+    }
+    else
+    {
+        nLen=nPos;
+    }
+    for(int i=nLen-4;i>0;i-=4)
+    {
+        strNum.insert(i,",");
+    }
+
+    return strNum;
+}
