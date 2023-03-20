@@ -48,10 +48,6 @@ QString ShowRmb(double dlNum,int sep)
 
 
 
-#include <list>
-#include <string>
-#include <vector>
-#include <sstream>
 typedef struct Node
 {
 	int id;
@@ -69,7 +65,7 @@ int main()
 {	
 	std::ostringstream ostr;
 	std::vector<Node> vec;
-	for (int i = 0; i < 10;i++)
+	for (int i = 0; i < 7;i++)
 	{
 		Node nd;
 		nd.id = i;
@@ -79,10 +75,10 @@ int main()
 		vec.push_back(nd);
 	}
 
-	for (int i = 0; i < vec.size(); i++)
+	/*for (int i = 0; i < vec.size(); i++)
 	{
 		std::cout << vec[i].sName << std::endl;
-	}
+	}*/
 
 	std::vector<Comm> vecComm;
 	for (int i = 0; i < (vec.size()-1);i++)
@@ -103,31 +99,23 @@ int main()
 	std::random_shuffle(vecComm.begin(), vecComm.end());	
 
 	std::vector<Comm> vecCommSort;	
-	std::list<int> vlist;
+	std::set<int> vSet;
 	while (vecCommSort.size() != vecComm.size())
 	{
 		bool bFind = false;
 		for (int i = 0; i < vecComm.size();i++)
 		{
 			if (vecComm[i].bSel == false)
-			{
-				std::list<int>::iterator itor1 = std::find(vlist.begin(), vlist.end(), vecComm[i].nd1.id);
-				std::list<int>::iterator itor2 = std::find(vlist.begin(), vlist.end(), vecComm[i].nd2.id);
-				if (itor1== vlist.end() && itor2== vlist.end())
+			{				
+				std::set<int>::iterator itor1 = vSet.find(vecComm[i].nd1.id);
+				std::set<int>::iterator itor2 = vSet.find(vecComm[i].nd2.id);
+				if (itor1== vSet.end() && itor2== vSet.end())
 				{
 					vecCommSort.push_back(vecComm[i]);
 					vecComm[i].bSel = true;
 
-					vlist.push_back(vecComm[i].nd1.id);
-					if (vlist.size()>vec.size()/2)
-					{
-						vlist.pop_front();
-					}
-					vlist.push_back(vecComm[i].nd2.id);
-					if (vlist.size() >vec.size()/2)
-					{
-						vlist.pop_front();
-					}
+					vSet.insert(vecComm[i].nd1.id);					
+					vSet.insert(vecComm[i].nd2.id);					
 					bFind = true;
 					break;
 				}
@@ -135,14 +123,22 @@ int main()
 		}
 		if (!bFind)
 		{
-			vlist.clear();
+			vSet.clear();
 		}
 	}
 
-	for (int i = 0; i < vecComm.size(); i++)
+	for (int i = 0; i < vecCommSort.size(); i++)
 	{
-		std::cout << vecComm[i].nd1.sName << " vs " << vecComm[i].nd2.sName;
-		std::cout << std::endl;
+		std::cout << vecCommSort[i].nd1.sName << " vs " << vecCommSort[i].nd2.sName;
+		if ( ((i + 1)*2) %vec.size()  == 0)
+		{
+			std::cout << std::endl;
+			std::cout << std::endl;
+		}
+		else
+		{
+			std::cout << "\t";
+		}
 	}
 	std::system("pause");
 }
