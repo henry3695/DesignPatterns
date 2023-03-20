@@ -45,3 +45,104 @@ QString ShowRmb(double dlNum,int sep)
 
     return strNum;
 }
+
+
+
+#include <list>
+#include <string>
+#include <vector>
+#include <sstream>
+typedef struct Node
+{
+	int id;
+	std::string sName;
+};
+
+typedef struct Comm
+{
+	Node nd1;
+	Node nd2;
+	bool bSel;
+};
+
+int main()
+{	
+	std::ostringstream ostr;
+	std::vector<Node> vec;
+	for (int i = 0; i < 10;i++)
+	{
+		Node nd;
+		nd.id = i;
+		ostr.str("");
+		ostr << "name_" << i;
+		nd.sName = ostr.str();
+		vec.push_back(nd);
+	}
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		std::cout << vec[i].sName << std::endl;
+	}
+
+	std::vector<Comm> vecComm;
+	for (int i = 0; i < (vec.size()-1);i++)
+	{
+		Node nd1 = vec[i];
+		for (int j = i + 1; j < vec.size();j++)
+		{
+			Node nd2 = vec[j];
+
+			Comm cm;
+			cm.nd1 = nd1;
+			cm.nd2 = nd2;
+			cm.bSel = false;
+			vecComm.push_back(cm);
+		}
+	}
+
+	std::random_shuffle(vecComm.begin(), vecComm.end());	
+
+	std::vector<Comm> vecCommSort;	
+	std::list<int> vlist;
+	while (vecCommSort.size() != vecComm.size())
+	{
+		bool bFind = false;
+		for (int i = 0; i < vecComm.size();i++)
+		{
+			if (vecComm[i].bSel == false)
+			{
+				std::list<int>::iterator itor1 = std::find(vlist.begin(), vlist.end(), vecComm[i].nd1.id);
+				std::list<int>::iterator itor2 = std::find(vlist.begin(), vlist.end(), vecComm[i].nd2.id);
+				if (itor1== vlist.end() && itor2== vlist.end())
+				{
+					vecCommSort.push_back(vecComm[i]);
+					vecComm[i].bSel = true;
+
+					vlist.push_back(vecComm[i].nd1.id);
+					if (vlist.size()>vec.size()/2)
+					{
+						vlist.pop_front();
+					}
+					vlist.push_back(vecComm[i].nd2.id);
+					if (vlist.size() >vec.size()/2)
+					{
+						vlist.pop_front();
+					}
+					bFind = true;
+					break;
+				}
+			}			
+		}
+		if (!bFind)
+		{
+			vlist.clear();
+		}
+	}
+
+	for (int i = 0; i < vecComm.size(); i++)
+	{
+		std::cout << vecComm[i].nd1.sName << " vs " << vecComm[i].nd2.sName;
+		std::cout << std::endl;
+	}
+	std::system("pause");
+}
