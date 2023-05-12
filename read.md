@@ -52,3 +52,11 @@ string showMoney(string str)
 	}
 	return strNum;
 }
+
+
+
+
+https://github.com/alibabacloud-go/alidns-20150109/tree/master/client
+
+
+
