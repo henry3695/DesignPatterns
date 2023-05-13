@@ -39,23 +39,6 @@ HeidiSQL
 FSCapture.exe
 doxygen
 
-string showMoney(string str)
-{
-	string strNum;
-	for (int i = (str.size() - 1);i >= 0; i--)
-	{
-		if (i%4==0 && i<(str.size() - 1) && str[i]!='-'&& str[i] != '+')
-		{
-			strNum.insert(strNum.begin(), ',');
-		}
-		strNum.insert(strNum.begin(),str[i]);
-	}
-	return strNum;
-}
-
-
-
-
 https://github.com/alibabacloud-go/alidns-20150109/tree/master/client
 
 
