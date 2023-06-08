@@ -51,3 +51,61 @@ int main() {
 
     return 0;
 }
+
+#include <stdio.h>
+#include <string.h>
+
+char* removeKDigits(char* num, int k) {
+    int len = strlen(num);
+    int top = 0;  // 栈顶指针
+
+    // 遍历每一位数字
+    for (int i = 0; i < len; i++) {
+        while (top > 0 && k > 0 && num[i] < num[top - 1]) {
+            // 如果当前数字比栈顶数字小，则弹出栈顶数字
+            top--;
+            k--;
+        }
+        if (top > 0 || num[i] != '0') {
+            // 将当前数字入栈
+            num[top++] = num[i];
+        }
+    }
+
+    // 如果还有剩余的删除次数，继续从栈中删除数字
+    while (top > 0 && k > 0) {
+        top--;
+        k--;
+    }
+
+    // 从栈中构建结果字符串
+    num[top] = '\0';
+
+    // 将栈中的数字反转得到最终结果
+    for (int i = 0, j = top - 1; i < j; i++, j--) {
+        char temp = num[i];
+        num[i] = num[j];
+        num[j] = temp;
+    }
+
+    // 处理结果为空的情况，返回"0"
+    if (top == 0) {
+        num[0] = '0';
+        num[1] = '\0';
+    }
+
+    return num;
+}
+
+int main() {
+    char num[] = "1432219";
+    int k = 3;
+
+    char* smallestNum = removeKDigits(num, k);
+    printf("Smallest number after removing %d digits: %s\n", k, smallestNum);
+
+    return 0;
+}
+
+
+
