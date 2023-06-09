@@ -42,4 +42,8 @@ doxygen
 https://github.com/alibabacloud-go/alidns-20150109/tree/master/client
 
 
+qt 列子
+https://doc.qt.io/qt-5/qtwebsockets-examples.html
+
+
 
