@@ -46,4 +46,26 @@ qt 列子
 https://doc.qt.io/qt-5/qtwebsockets-examples.html
 
 
+<%
+' 存储数组对象
+Dim yourArray(2)
+yourArray(0) = "Item 1"
+yourArray(1) = "Item 2"
+yourArray(2) = "Item 3"
+
+Application("MyArray") = yourArray
+%>
+
+<%
+' 检索数组对象
+Dim retrievedArray
+retrievedArray = Application("MyArray")
+
+' 使用数组对象
+For i = LBound(retrievedArray) To UBound(retrievedArray)
+    Response.Write(retrievedArray(i) & "<br>")
+Next
+%>
+
+
 
