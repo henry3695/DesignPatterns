@@ -1,7 +1,26 @@
 <%
-if Request.ServerVariables("REMOTE_ADDR")<>Application("ip") then
-response.write "404"
-response.end		
+dim data
+data=Application("ip")
+
+dim flag
+flag="0"
+dim ip
+ip=Request.ServerVariables("REMOTE_ADDR")
+
+if IsArray(data)=true then
+
+For i=0 To UBound(data)	
+  if ip=data(i) then
+	flag="ok"
+	Response.end
+  end if 
+Next
+
+end if
+
+if flag<>"ok" then
+	Response.Status = "404 Not Found"
+	'Response.write "404 Not Found"
 end if
 %>
 <html>
