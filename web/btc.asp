@@ -23,182 +23,165 @@ if flag<>"ok" then
 	'Response.write "404 Not Found"
 end if
 %>
+<!DOCTYPE html>
 <html>
-
 <head>
-	<title>BTCUSDT 合约</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<!--
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-	<link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
-	<script src="jquery.cookie.js"></script>
-	<script src="https://cdn.bootcdn.net/ajax/libs/pako/2.0.3/pako.min.js"></script>
-	-->
+<meta charset="utf-8"> 
+<title>test</title> 
+<style>
+
+*{
+	margin: 0;
+	padding: 0;
+	top: 0;
+	background-color: #126E51;
+}
+#main
+{
+	position:absolute;
+	width:100%;
+	height:100%;
+	border:1px solid red;
+}
+
+#title
+{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;	
+	height:60px;	
+	/*border:1px solid blue;*/
+}
+#time
+{
+	float:right;
+	width:40%;	
+	color:rgb(255,255,255);
+	color: yellow;
+	font-weight: 900;
+	font-size: 36px;
+	/*border:1px solid red;*/	
+	line-height:60px;	
+}
+
+#price
+{
+	margin-left:10px;
+	float:left;
+	width:20%;	
+	color:rgb(255,255,255);
+	color: yellow;
+	font-weight: 900;
+	font-size: 36px;
+	/*border:1px solid red;*/
+	line-height:60px;	
+}
+
+#Ray
+{	
+	position:absolute;
+	top:60px;
+	width:100%;	
+	height:60px;
+	border:1px solid red;
+	display:inline;
+}
+
+#d{
+	width:30%;	
+	height:60px;
+	display:inline;
+	line-height:60px;
+	color:blue;
+	font-weight: 900;
+	font-size: 36px;	
+	float:left;
+	text-align:left;	
+	background-color: #08c4bb;
+}
+
+#k{
+	width:70%;	
+	height:60px;
+	display:inline;
+	line-height:60px;
+	color:#330a36;
+	font-weight: 900;
+	font-size: 36px;
+	float:right;
+	text-align:right;	
+	background-color: #db5ac4;
+}
+
+#overflowTest {    
+	position:absolute;
+	top:120px;
+	color:white;
+    width:100%;
+    height: 100px;
+    overflow: scroll;
+	margin-left:5px;
+}
+p{
+line-height:28px;
+font-size:26px;
+}	
+</style>
+<script src="/jquery-3.7.0.min.js"></script>
+
+
+<script>
+/*
+function refreshTime()
+{
+	var date = new Date();
+	$("#time").text(date.toLocaleString());
 	
-	<link rel="stylesheet" href="jquery-ui.css">
-	<script src="jquery-1.9.1.js"></script>
-	<script src="jquery-ui.js"></script>
-	<link rel="stylesheet" href="style.css">
-	<script src="jquery.cookie.js"></script>
-	<script src="pako.min.js"></script>
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			top: 0;
-		}
+	
+	var rnd = Math.floor(Math.random()*10);
+	
+	var d = (rnd*10)+"%";
+	var k = ((10-rnd)*10)+"%";
+	
+	$("#d").css("width",d);
+	$("#k").css("width",k);
+	
+	$("#d").text(rnd*10);
+	$("#k").text( (10-rnd)*10);
+	
+	console.log($(window).height());
+	
+	$("#overflowTest").append("<p>这里的文本内容是可以滚动的，滚动条方向是垂直方向。</p>"+rnd);
+	
+	var height=$("#overflowTest")[0].scrollHeight;
+	$("#overflowTest").scrollTop(height);
+}
 
-		#main {
-			text-align: left;
-			width: 980px;
-			height: 800px;
-			border: 1px;
-		}
+$(function(){
+    setInterval(refreshTime,1000);
+	$("#overflowTest").css("height",($(window).height()-60-60)+"px");
+	
+	
+	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+        if (window.orientation === 180 || window.orientation === 0) {
+            console.log("竖屏");
+			$("#overflowTest").css("height",($(window).height()-60-60)+"px");
+        }
+        if (window.orientation === 90 || window.orientation === -90 ){
+            console.log("横屏");
+			$("#overflowTest").css("height",($(window).height()-60-60)+"px");
+        }
+    }, false);
+	
 
-		body {
-			background-color: #126E51;
-		}
+});
+*/
 
-		span.num {
-			color: yellow;
-			font-weight: 900;
-			font-size: 350px;
-		}
-
-		span.time {
-			color: yellow;
-			font-weight: 900;
-			font-size: 36px;
-		}
-
-		#top {
-			float: left;
-			clear: left;
-			filter: alpha(opacity=60);
-			background-color: #777;
-			z-index: 1002;
-			left: 0px;
-			opacity: 0.5;
-			-moz-opacity: 0.5;
-			width: 100%;
-		}
-
-		#progressBar {
-			float: left;
-			clear: left;
-			background-color: yellow;
-			border-style: solid;
-			border-width: 1px;
-			border-color: #000;
-			height: 20px;
-			width: 100%;
-		}
-
-		#btc {
-			float: left;
-			clear: left;
-		}
-
-		#div_profit {
-		left-margin:10px;
-			float: left;
-			clear: left;
-			background-color: #ccddff;
-			border-style: solid;
-			border-width: 1px;
-			border-color: #000;
-			height: 60px;
-			line-height: 60px;
-			width: 100%;
-			color: #000;
-			font-weight: 900;
-			font-size: 36px;
-		}
-		#div_msg {
-			float: left;
-			clear: left;
-			background-color: #ccddff;
-			border-style: solid;
-			border-width: 1px;
-			border-color: #000;
-			height: 60px;
-			line-height: 60px;
-			width: 100%;
-			color: #000;
-			font-weight: 900;
-			font-size: 36px;
-		}
-
-		#div_fanan {
-			float: left;
-			clear: left;
-			background-color: #ccddff;
-			border-style: solid;
-			border-width: 1px;
-			border-color: #000;
-			height: 950px;
-			line-height: 45px;
-			width: 100%;
-			color: #000;
-			font-weight: 350;
-			font-size: 32px;
-		}
-
-		#div_btns {
-			background-color: #126E51;
-			width: 550px;
-			float: right;
-			margin-top: 2px;
-		}
-
-		#div_btns button {
-			width: 80px;
-			height: 25px;
-			background-color: gray;
-			font-size: 16px;
-			color: white;
-			zoom: 200%;
-		}
-
-		#div_btns .active {
-			background-color: orange;
-			color: blue;
-		}
-		textarea {
-			font-size: 1.2rem;
-			letter-spacing: 0px;
-		}
-
-		textarea {
-			padding: 10px;
-			max-width: 100%;
-			line-height: 1.5;
-			border-radius: 5px;
-			border: 1px solid #ccc;
-			box-shadow: 1px 1px 1px #999;
-		}
-
-		label {
-			display: block;
-			margin-bottom: 10px;
-		}
-
-	</style>
-
-
-	<script>
 		var wsServer = 'ws://www.online100.top:7001';
 		var limitConnect = 100;  // 断线重连次数
 		var timeConnect = 0;
-		webSocketInit(wsServer);
-		function showTime()
-		{
-			//var today = new Date();
-			//console.log("The time is: " + today.toString ());	
-		}
-
+		webSocketInit(wsServer);		
 		var nLine=0;
 		function debug(message) 
 		{
@@ -207,14 +190,11 @@ end if
 			if(nLine>100)
 			{
 				nLine=0;
-				$("#debugTextArea").val(message + "\n");
+				$("#overflowTest").text("");
 			}
-			else
-			{
-				$("#debugTextArea").val( $("#debugTextArea").val()+message + "\n");
-			}
-			var height=$("#debugTextArea")[0].scrollHeight;
-			$("#debugTextArea").scrollTop(height);
+			$("#overflowTest").append("<p>"+message+"</p>");
+			var height=$("#overflowTest")[0].scrollHeight;
+			$("#overflowTest").scrollTop(height);
 		}
 		
 		//socket初始化
@@ -228,28 +208,17 @@ end if
 				var obj = JSON.parse(msg.data);
 				if(obj.cmd==1)
 				{
-					//debug(obj.s_price+","+obj.MBuy30+","+obj.MSell30);
+					var buy=Math.round(obj.Buy30 * 100 / (obj.Sell30+obj.Buy30);
+					var d = buy+"%";
+					var k = (100-buy)+"%";
 					
-					var font_color="blue";
-					if(obj.Buy30>obj.Sell30)
-					{
-						font_color="blue";
-					}
-					else
-					{
-						font_color="red";
-					}
-					$("#div_profit").html("<font color='yellow'>"+obj.s_price+"</font>    <font color="+font_color+">" + obj.str_Buy30 + "   VS   " + obj.str_Sell30+ "</font>  ");
-					//$("#sp1").text(obj.s_price);
+					$("#d").css("width",d);
+					$("#k").css("width",k);
 					
-					//console.log(obj);
-					
-					
-					$("#progressBar").css({"background": ""+font_color+""});
-					if( (obj.Sell30+obj.Buy30)>0)
-					{
-						$("#progressBar").progressbar({value: Math.round(obj.Buy30 * 100 / (obj.Sell30+obj.Buy30) ) });
-					}				
+					$("#d").text(obj.Buy30);
+					$("#k").text(obj.Sell30);	
+
+					$("#price").text(obj.s_price);					
 				}
 				else if(obj.cmd==2)
 				{
@@ -257,14 +226,7 @@ end if
 				}	
 				
 				var date = new Date();
-				$("#sp2").text(date.toLocaleString());
-				/*$("#progressBar").progressbar({
-					value: Math.round(date.getSeconds() * 100 / 60)
-				});
-
-				$("#progressBar").css({
-					"background": '#' + Math.floor(Math.random() * 16777215).toString(16)
-				});*/
+				$("#time").text(date.toLocaleString());				
 
 			};
 			ws.onclose = function () {
@@ -291,35 +253,38 @@ end if
 		}
 
 
-
-
 		$(function () {			
-
+			$("#overflowTest").css("height",($(window).height()-60-60)+"px");
+	
+	
+			window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
+				if (window.orientation === 180 || window.orientation === 0) {
+					console.log("竖屏");
+					$("#overflowTest").css("height",($(window).height()-60-60)+"px");
+				}
+				if (window.orientation === 90 || window.orientation === -90 ){
+					console.log("横屏");
+					$("#overflowTest").css("height",($(window).height()-60-60)+"px");
+				}
+			}, false);
 	
 		});
 
-	</script>
-
-
-
+</script>
 </head>
-
 <body>
-	<div id="main">
-		<div id="top" class="top">
-			<span class="time" id="sp2">last time:</span>
-			<div id="div_btns">
-				<button id="btn_profit">隐藏收益</button>
-				<button id="btn_input">填写数据</button>
-				<button id="btn_fanan">显示方案</button>
-			</div>
-		</div>
-		<div id="progressBar"></div>
-		<div id="div_profit"></div>	
-		<div id="div_msg"><textarea id="debugTextArea"  rows="20" cols="137"></textarea></div>		
-	</div>
+<div id="main">
+<div id="title">
+<span id="time">2023/6/14 13:30:53</span>
+<span id="price">30000.10</span>
+</div>
 
+<div id="Ray">
+<div id="d">30</div> 
+<div id="k">70</div> 
+</div>
 
+<div id="overflowTest"></div>
+</div>
 </body>
-
 </html>
