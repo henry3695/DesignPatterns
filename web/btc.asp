@@ -208,15 +208,15 @@ $(function(){
 				var obj = JSON.parse(msg.data);
 				if(obj.cmd==1)
 				{
-					var buy=Math.round(obj.Buy30 * 100 / (obj.Sell30+obj.Buy30);
+					var buy=Math.round(obj.Buy30 * 100 / (obj.Sell30+obj.Buy30));
 					var d = buy+"%";
 					var k = (100-buy)+"%";
 					
 					$("#d").css("width",d);
 					$("#k").css("width",k);
 					
-					$("#d").text(obj.Buy30);
-					$("#k").text(obj.Sell30);	
+					$("#d").text(obj.str_Buy30);
+					$("#k").text(obj.str_Sell30);	
 
 					$("#price").text(obj.s_price);					
 				}
