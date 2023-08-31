@@ -1,142 +1,70 @@
-package main
+#include <Windows.h>
+#include <iostream>
+#include <string>
+#include <atlbase.h>
+#include <comdef.h>
 
-import (
-	"fmt"
-	"syscall"
-	"unsafe"
-)
+int main() {
+    CoInitialize(nullptr);
 
-const (
-	S_OK = 0
-)
+    HRESULT hr = S_OK;
+    INetFwPolicy2* fwPolicy2 = nullptr;
+    hr = CoCreateInstance(__uuidof(NetFwPolicy2), nullptr, CLSCTX_INPROC_SERVER, __uuidof(INetFwPolicy2), (void**)&fwPolicy2);
+    if (FAILED(hr)) {
+        std::cout << "Failed to create INetFwPolicy2 instance." << std::endl;
+        CoUninitialize();
+        return hr;
+    }
 
-var (
-	netFwPolicy2Clsid = syscall.MustLoadDLL("ole32.dll").MustFindProc("CLSIDFromString")
-	ole32             = syscall.MustLoadDLL("ole32.dll")
-	oleaut32          = syscall.MustLoadDLL("oleaut32.dll")
-)
+    INetFwRules* rules = nullptr;
+    hr = fwPolicy2->get_Rules(&rules);
+    if (FAILED(hr)) {
+        std::cout << "Failed to get firewall rules." << std::endl;
+        fwPolicy2->Release();
+        CoUninitialize();
+        return hr;
+    }
 
-type INetFwRule struct {
-	Reserved1              [4]byte
-	Name                   [256]uint16
-	Description            [256]uint16
-	ApplicationName        [256]uint16
-	ServiceName            [256]uint16
-	IPVersion              uint32
-	Protocol               uint32
-	Direction              uint32
-	Addresses              [256]uint16
-	SourcePorts            [256]uint16
-	DestinationPorts       [256]uint16
-	SourceAddresses        [256]uint16
-	DestinationAddresses   [256]uint16
-	IPProtocol             int32
-	SourcePort             int32
-	DestinationPort        int32
-	IPFilterAction         int32
-	TcpPorts               [256]uint16
-	UdpPorts               [256]uint16
-	Profile                int32
-	Reserved2              int32
-	EdgeTraversalPolicy    int32
-	IsEnabled              bool
-	IsBuiltIn              bool
-	Reserved3              [8]byte
-	LocalOnlyMapping       bool
-	OwnerSid               uint64
-	Weight                 uint32
-	EffectiveLocalFirewall bool
-	Reserved4              uint32
-}
+    long count = 0;
+    hr = rules->get_Count(&count);
+    if (FAILED(hr)) {
+        std::cout << "Failed to get rule count." << std::endl;
+        rules->Release();
+        fwPolicy2->Release();
+        CoUninitialize();
+        return hr;
+    }
 
-type INetFwPolicy2 struct {
-	Reserved1 [4]byte
-	CurrentProfileTypes int32
-	Reserved2 [4]byte
-	Settings *INetFwProfile
-}
+    for (long i = 0; i < count; ++i) {
+        INetFwRule* rule = nullptr;
+        hr = rules->Item(i, &rule);
+        if (FAILED(hr)) {
+            std::cout << "Failed to get rule at index " << i << std::endl;
+            continue;
+        }
 
-type INetFwProfile struct {
-	Reserved [4]byte
-	IcmpSettings *INetFwRemoteAddresses
-	GloballyOpenPorts *INetFwOpenPorts
-	AuthorizedApplications *INetFwAuthorizedApplications
-	Reserved2 [4]byte
-}
+        BSTR name = nullptr;
+        hr = rule->get_Name(&name);
+        if (SUCCEEDED(hr)) {
+            std::wstring ruleName(name);
+            if (ruleName == L"20000-20005") {
+                BSTR newScope = SysAllocString(L"[New Scope CIDR]"); // Replace with your desired new scope
+                if (newScope) {
+                    hr = rule->put_RemoteAddresses(newScope);
+                    if (SUCCEEDED(hr)) {
+                        std::wcout << L"Scope modified for rule " << ruleName << std::endl;
+                    }
+                    SysFreeString(newScope);
+                }
+            }
+            SysFreeString(name);
+        }
+        rule->Release();
+    }
 
-type INetFwRemoteAddresses struct {
-	Reserved [4]byte
-	RemoteAddresses [256]uint16
-}
+    rules->Release();
+    fwPolicy2->Release();
+    CoUninitialize();
 
-type INetFwOpenPorts struct {
-	Reserved [4]byte
-	Port [256]uint16
-}
-
-type INetFwAuthorizedApplications struct {
-	Reserved [4]byte
-	AuthApp [256]uint16
-}
-
-func getWindowsFirewallPolicy() (*INetFwPolicy2, error) {
-	var policy *INetFwPolicy2
-	hr, _, _ := ole32.CoCreateInstance.Call(
-		uintptr(unsafe.Pointer(&netFwPolicy2Clsid)),
-		0,
-		1,
-		uintptr(unsafe.Pointer(&ole.IID_IUnknown)),
-		uintptr(unsafe.Pointer(&policy)),
-	)
-	if hr != S_OK {
-		return nil, fmt.Errorf("CoCreateInstance error: %x", hr)
-	}
-	return policy, nil
-}
-
-func findRuleByName(policy *INetFwPolicy2, ruleName string) (*INetFwRule, error) {
-	rules := policy.Settings.GloballyOpenPorts
-	for i := 0; i < len(rules.Port); i++ {
-		if syscall.UTF16ToString(rules.Port[i].Name[:]) == ruleName {
-			return &rules.Port[i], nil
-		}
-	}
-	return nil, fmt.Errorf("Rule not found with name %s", ruleName)
-}
-
-func modifyPortScope(rule *INetFwRule, newScope [256]uint16) error {
-	copy(rule.Addresses[:], newScope[:])
-	return nil
-}
-
-func main() {
-	ruleNameToModify := "20000-20005" // The rule name you want to modify
-	newScope := "[Scope CIDR]"        // New scope value, e.g., "192.168.1.0/24"
-
-	policy, err := getWindowsFirewallPolicy()
-	if err != nil {
-		fmt.Println("Error getting firewall policy:", err)
-		return
-	}
-	defer syscall.SysFreeString(uintptr(unsafe.Pointer(policy)))
-
-	rule, err := findRuleByName(policy, ruleNameToModify)
-	if err != nil {
-		fmt.Println("Error finding rule:", err)
-		return
-	}
-
-	newScopeUTF16, err := syscall.UTF16PtrFromString(newScope)
-	if err != nil {
-		fmt.Println("Error converting new scope to UTF16:", err)
-		return
-	}
-
-	err = modifyPortScope(rule, newScopeUTF16)
-	if err != nil {
-		fmt.Println("Error modifying port scope:", err)
-		return
-	}
-
-	fmt.Println("Port scope modified successfully.")
+    return 0;
 }
