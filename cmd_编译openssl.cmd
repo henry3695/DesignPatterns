@@ -4,6 +4,8 @@ https://www.openssl.org/source/
 下载openssl-1.1.1v.tar.gz (SHA256) (PGP sign) (SHA1)
 释放到目录 C:\openssl-1.1.1v\openssl-1.1.1v
 
+
+https://strawberryperl.com/
 https://www.activestate.com/products/perl/
 https://www.nasm.us/
 
