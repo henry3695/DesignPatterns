@@ -1,0 +1,39 @@
+{
+  "exchange": {
+    "demo": true,
+    "api_key": "69090571-15f7-495b-89e5-89e446fb00ce",
+    "secret_key": "74474895473338470228382F62CC5398",
+    "passphrase": "HAK242",
+    "inst_id": "BTC-USDT-SWAP",
+    "td_mode": "cross",
+    "leverage": 5
+  },
+  "proxy": {
+    "enabled": true,
+    "host": "192.168.0.170",
+    "port": 9200,
+    "username": "",
+    "password": ""
+  },
+  "ssl": {
+    "verify": true,
+    "ca_file": ""
+  },
+  "strategy": {
+    "fast_ticks": 120,
+    "slow_ticks": 1200,
+    "order_size": 1,
+    "trade_enabled": false,
+    "allow_short": true,
+    "taker_fee_rate": 0.0005,
+    "min_edge_bps": 15,
+    "confirm_ticks": 20,
+    "cooldown_sec": 60
+  },
+  "risk": {
+    "max_order_size": 2,
+    "max_position": 10,
+    "max_drawdown_pct": 10.0
+  },
+  "log_file": "okxquant.log"
+}

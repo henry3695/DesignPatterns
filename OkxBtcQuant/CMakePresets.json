@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "vs2022",
+      "displayName": "VS 2022 x64 (Release, 中文界面)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": { "value": "x64", "strategy": "set" },
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPENSSL_ROOT_DIR": "${sourceDir}/third_party/openssl-vc"
+      }
+    },
+    {
+      "name": "vs2022-en",
+      "displayName": "VS 2022 x64 (Release, English UI)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": { "value": "x64", "strategy": "set" },
+      "binaryDir": "${sourceDir}/build-en",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPENSSL_ROOT_DIR": "${sourceDir}/third_party/openssl-vc",
+        "UI_ENGLISH": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vs2022",
+      "configurePreset": "vs2022",
+      "configuration": "Release"
+    },
+    {
+      "name": "vs2022-en",
+      "configurePreset": "vs2022-en",
+      "configuration": "Release"
+    }
+  ]
+}
